@@ -1,5 +1,6 @@
 import requests
 import re
+import base64
 
 def get_us_proxies():
     url = "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=US&ssl=all&anonymity=all"
@@ -15,11 +16,17 @@ def get_us_proxies():
 def save_and_format():
     proxies = get_us_proxies()
     if proxies:
+        raw_list = ""
+        for i, proxy in enumerate(proxies[:10]):
+            # SagerNet'in tanıyacağı standart formatı (http://IP:PORT#İsim) oluşturuyoruz
+            raw_list += f"http://{proxy}#US-Proxy-{i+1}\n"
+        
+        # Tüm listeyi SagerNet'in ana dili olan Base64 formatına çeviriyoruz
+        b64_encoded = base64.b64encode(raw_list.encode('utf-8')).decode('utf-8')
+        
         with open("proxy_list.txt", "w") as f:
-            for proxy in proxies[:10]:
-                # SagerNet'in tanıması için başına http:// ekliyoruz
-                f.write(f"http://{proxy}\n")
-        print("Proxy listesi başarıyla güncellendi!")
+            f.write(b64_encoded)
+        print("Proxy listesi başarıyla Base64 olarak güncellendi!")
     else:
         print("Yeni proxy bulunamadı, eski liste korunuyor.")
 
