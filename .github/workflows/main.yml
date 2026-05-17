@@ -2,21 +2,24 @@ name: Proxy Guncelleyici
 
 on:
   schedule:
-    # Her saat başı otomatik çalışmasını tetikler
     - cron: '0 * * * *'
-  workflow_dispatch: # İstediğimizde elle tetikleme butonu
+  workflow_dispatch:
+
+# GitHub'ın istediği Node.js 24 zorlamasını buraya ekliyoruz
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Depoyu Klonla
-        uses: actions/checkout@v4 # v3 yerine güncel v4 yaptık
+        uses: actions/checkout@v4
 
       - name: Python Kurulumu
-        uses: actions/setup-python@v5 # v4 yerine güncel v5 yaptık
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x' # Buradaki yazım hatasını 'python-version' olarak düzelttik
+          python-version: '3.x'
 
       - name: Gerekli Paketleri Yukle
         run: pip install requests
