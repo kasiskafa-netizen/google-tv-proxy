@@ -4,19 +4,19 @@ on:
   schedule:
     # Her saat başı otomatik çalışmasını tetikler
     - cron: '0 * * * *'
-  workflow_dispatch: # Bu satır, istediğimizde elle de tetiklememizi sağlar
+  workflow_dispatch: # İstediğimizde elle tetikleme butonu
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Depoyu Klonla
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # v3 yerine güncel v4 yaptık
 
       - name: Python Kurulumu
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # v4 yerine güncel v5 yaptık
         with:
-          python-python: '3.x'
+          python-version: '3.x' # Buradaki yazım hatasını 'python-version' olarak düzelttik
 
       - name: Gerekli Paketleri Yukle
         run: pip install requests
