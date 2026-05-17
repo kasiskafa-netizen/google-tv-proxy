@@ -1,0 +1,34 @@
+name: Proxy Guncelleyici
+
+on:
+  schedule:
+    # Her saat başı otomatik çalışmasını tetikler
+    - cron: '0 * * * *'
+  workflow_dispatch: # Bu satır, istediğimizde elle de tetiklememizi sağlar
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Depoyu Klonla
+        uses: actions/checkout@v3
+
+      - name: Python Kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-python: '3.x'
+
+      - name: Gerekli Paketleri Yukle
+        run: pip install requests
+
+      - name: Scraper Kodunu Calistir
+        run: python scraper.py
+
+      - name: Guncel Listeyi Depoya Yukle (Commit)
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add proxy_list.txt || true
+          git commit -m "Proxy listesi otomatik guncellendi" || true
+          git push || true
+          
