@@ -3,7 +3,7 @@ import base64
 
 def get_free_nodes():
     # Günlük güncellenen devasa bir ücretsiz v2ray/shadowsocks havuzu
-    url = "https://raw.githubusercontent.com/freefq/free/master/v2"
+    url = "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub"
     try:
         response = requests.get(url, timeout=10)
         if response.status_code == 200:
