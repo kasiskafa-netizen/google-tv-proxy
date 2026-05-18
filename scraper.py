@@ -1,34 +1,44 @@
 import requests
-import re
+import base64
 
-def get_us_proxies():
-    url = "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=US&ssl=all&anonymity=all"
+def get_free_nodes():
+    # Günlük güncellenen devasa bir ücretsiz v2ray/shadowsocks havuzu
+    url = "https://raw.githubusercontent.com/freefq/free/master/v2"
     try:
         response = requests.get(url, timeout=10)
         if response.status_code == 200:
-            proxies = re.findall(r'\d+\.\d+\.\d+\.\d+:\d+', response.text)
-            return proxies
+            # Gelen veri base64 şifrelidir, önce çözüyoruz
+            decoded_data = base64.b64decode(response.text).decode('utf-8', errors='ignore')
+            lines = decoded_data.strip().split('\n')
+            return lines
     except Exception as e:
         print(f"Hata oluştu: {e}")
     return []
 
 def save_and_format():
-    proxies = get_us_proxies()
-    if proxies:
-        # SagerNet'in en kararlı okuduğu Clash YAML formatını hazırlıyoruz
-        clash_content = "proxies:\n"
-        for i, proxy in enumerate(proxies[:10]):
-            ip, port = proxy.split(":")
-            clash_content += f"  - name: \"US-Proxy-{i+1}\"\n"
-            clash_content += f"    type: http\n"
-            clash_content += f"    server: {ip}\n"
-            clash_content += f"    port: {port}\n"
+    nodes = get_free_nodes()
+    if nodes:
+        selected_nodes = []
+        for node in nodes:
+            # Google TV'yi açacak batı ülkelerindeki (US, DE, NL, UK vb.) node'ları süzüyoruz
+            if any(x in node.lower() for x in ['us', 'united', 'america', 'de', 'nl', 'uk', 'sg']):
+                selected_nodes.append(node)
+            if len(selected_nodes) >= 20:
+                break
+        
+        # Filtreye takılan yeterli node olmazsa havuzun en başındaki en taze 20 node'u alıyoruz
+        if len(selected_nodes) < 10:
+            selected_nodes = nodes[:20]
+            
+        # SagerNet'in tık diye okuması için listeyi tekrar Base64 ile şifreliyoruz
+        final_text = "\n".join(selected_nodes)
+        b64_encoded = base64.b64encode(final_text.encode('utf-8')).decode('utf-8')
         
         with open("proxy_list.txt", "w") as f:
-            f.write(clash_content)
-        print("Proxy listesi Clash formatında başarıyla güncellendi!")
+            f.write(b64_encoded)
+        print("Yüksek hızlı VPN listesi başarıyla güncellendi!")
     else:
-        print("Yeni proxy bulunamadı, eski liste korunuyor.")
+        print("Yeni liste çekilemedi, eski veriler korunuyor.")
 
 if __name__ == "__main__":
     save_and_format()
