@@ -1,6 +1,5 @@
 import requests
 import re
-import base64
 
 def get_us_proxies():
     url = "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=US&ssl=all&anonymity=all"
@@ -16,17 +15,18 @@ def get_us_proxies():
 def save_and_format():
     proxies = get_us_proxies()
     if proxies:
-        raw_list = ""
+        # SagerNet'in en kararlı okuduğu Clash YAML formatını hazırlıyoruz
+        clash_content = "proxies:\n"
         for i, proxy in enumerate(proxies[:10]):
-            # SagerNet'in tanıyacağı standart formatı (http://IP:PORT#İsim) oluşturuyoruz
-            raw_list += f"http://{proxy}#US-Proxy-{i+1}\n"
-        
-        # Tüm listeyi SagerNet'in ana dili olan Base64 formatına çeviriyoruz
-        b64_encoded = base64.b64encode(raw_list.encode('utf-8')).decode('utf-8')
+            ip, port = proxy.split(":")
+            clash_content += f"  - name: \"US-Proxy-{i+1}\"\n"
+            clash_content += f"    type: http\n"
+            clash_content += f"    server: {ip}\n"
+            clash_content += f"    port: {port}\n"
         
         with open("proxy_list.txt", "w") as f:
-            f.write(b64_encoded)
-        print("Proxy listesi başarıyla Base64 olarak güncellendi!")
+            f.write(clash_content)
+        print("Proxy listesi Clash formatında başarıyla güncellendi!")
     else:
         print("Yeni proxy bulunamadı, eski liste korunuyor.")
 
