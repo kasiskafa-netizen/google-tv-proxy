@@ -3,7 +3,7 @@ import base64
 
 def get_free_nodes():
     # Günlük güncellenen devasa bir ücretsiz v2ray/shadowsocks havuzu
-    url = "https://raw.githubusercontent.com/w1770946466/Auto_Proxy/main/Long_term_subscription_num"
+    url = "https://raw.githubusercontent.com/Pawdroid/Free-servers/main/sub"
     try:
         response = requests.get(url, timeout=10)
         if response.status_code == 200:
