@@ -1,1 +1,41 @@
-aHR0cDovLzE1MC4xMzYuMTYzLjUxOjgwI1VTLVByb3h5LTEKaHR0cDovLzIwLjIuODMuMjQzOjMxMjkjVVMtUHJveHktMgpodHRwOi8vNDcuMjUxLjczLjU0Ojk5OTIjVVMtUHJveHktMwpodHRwOi8vMTU3LjkwLjEwLjE1OjEwNDEjVVMtUHJveHktNApodHRwOi8vMTU3LjkwLjEwLjE1OjU2MDQwI1VTLVByb3h5LTUKaHR0cDovLzE1Ny45MC4xMC4xNToxNTcjVVMtUHJveHktNgpodHRwOi8vMTU3LjkwLjEwLjE1OjU2OSNVUy1Qcm94eS03Cmh0dHA6Ly80Ny4yMzguMjAzLjE3MDo1MDAwMCNVUy1Qcm94eS04Cmh0dHA6Ly8xNTcuOTAuMTAuMTU6MzEyOTQjVVMtUHJveHktOQpodHRwOi8vNDcuMjUxLjczLjU0OjQxNDUjVVMtUHJveHktMTAK
+proxies:
+  - name: "US-Proxy-1"
+    type: http
+    server: 198.111.166.184
+    port: 80
+  - name: "US-Proxy-2"
+    type: http
+    server: 47.243.92.199
+    port: 3129
+  - name: "US-Proxy-3"
+    type: http
+    server: 157.90.10.15
+    port: 7085
+  - name: "US-Proxy-4"
+    type: http
+    server: 157.90.10.15
+    port: 7040
+  - name: "US-Proxy-5"
+    type: http
+    server: 157.90.10.15
+    port: 10601
+  - name: "US-Proxy-6"
+    type: http
+    server: 157.90.10.15
+    port: 228
+  - name: "US-Proxy-7"
+    type: http
+    server: 157.90.10.15
+    port: 31299
+  - name: "US-Proxy-8"
+    type: http
+    server: 157.90.10.15
+    port: 1050
+  - name: "US-Proxy-9"
+    type: http
+    server: 74.176.195.135
+    port: 80
+  - name: "US-Proxy-10"
+    type: http
+    server: 157.90.10.15
+    port: 10094
